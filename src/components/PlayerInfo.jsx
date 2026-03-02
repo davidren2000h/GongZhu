@@ -1,20 +1,22 @@
 import React from 'react';
-import { getPlayerPosition, SUIT_SYMBOLS } from '../utils/cardUtils';
+import { getPlayerPosition, SUIT_SYMBOLS, RANK_DISPLAY, getHeartValue } from '../utils/cardUtils';
 
 export default function PlayerInfo({ playerNames, scores, myIndex, currentPlayerTurn, handSizes, capturedCards, exposedCards }) {
   const positions = ['bottom', 'right', 'top', 'left'];
 
-  const getScoringCardsSummary = (cards) => {
-    const scoring = [];
-    let heartCount = 0;
+  const getScoringCardsDetail = (cards) => {
+    const details = [];
+    const hearts = [];
     for (const c of cards) {
-      if (c.suit === 'S' && c.rank === 12) scoring.push('🐷');
-      if (c.suit === 'D' && c.rank === 11) scoring.push('🐐');
-      if (c.suit === 'C' && c.rank === 10) scoring.push('⚡');
-      if (c.suit === 'H') heartCount++;
+      if (c.suit === 'S' && c.rank === 12) details.push({ label: '♠Q', emoji: '🐷', value: -100, className: 'card-pig' });
+      if (c.suit === 'D' && c.rank === 11) details.push({ label: '♦J', emoji: '🐐', value: +100, className: 'card-goat' });
+      if (c.suit === 'C' && c.rank === 10) details.push({ label: '♣10', emoji: '⚡', value: '×2', className: 'card-transformer' });
+      if (c.suit === 'H') {
+        const val = getHeartValue(c.rank);
+        if (val !== 0) hearts.push({ label: `♥${RANK_DISPLAY[c.rank]}`, value: val });
+      }
     }
-    if (heartCount > 0) scoring.push(`♥×${heartCount}`);
-    return scoring.join(' ');
+    return { details, hearts };
   };
 
   const getExposedSummary = (playerIdx) => {
@@ -36,8 +38,9 @@ export default function PlayerInfo({ playerNames, scores, myIndex, currentPlayer
         const pos = getPlayerPosition(i, myIndex);
         const isActive = currentPlayerTurn === i;
         const captured = capturedCards[i] || [];
-        const scoringSummary = getScoringCardsSummary(captured);
+        const { details, hearts } = getScoringCardsDetail(captured);
         const exposedSummary = getExposedSummary(i);
+        const totalHeartValue = hearts.reduce((sum, h) => sum + h.value, 0);
 
         return (
           <div key={i} className={`player-info player-info-${pos} ${isActive ? 'player-active' : ''}`}>
@@ -54,9 +57,18 @@ export default function PlayerInfo({ playerNames, scores, myIndex, currentPlayer
                 📢 {exposedSummary}
               </div>
             )}
-            {scoringSummary && (
-              <div className="player-captured" title="Captured scoring cards">
-                {scoringSummary}
+            {(details.length > 0 || hearts.length > 0) && (
+              <div className="player-captured-details">
+                {details.map((d, idx) => (
+                  <span key={idx} className={`captured-card ${d.className}`} title={`${d.label}: ${d.value}`}>
+                    {d.emoji}{d.label}({d.value})
+                  </span>
+                ))}
+                {hearts.length > 0 && (
+                  <span className="captured-card card-hearts" title={hearts.map(h => `${h.label}: ${h.value}`).join(', ')}>
+                    ♥×{hearts.length}({totalHeartValue})
+                  </span>
+                )}
               </div>
             )}
             {isActive && <div className="player-turn-indicator">▶</div>}

@@ -3,6 +3,22 @@ const { v4: uuidv4 } = require('uuid');
 const { GongzhuGame } = require('./gameEngine');
 const { AIPlayer } = require('./aiPlayer');
 
+// Pool of common names for AI players
+const AI_NAME_POOL = [
+  'Alice', 'Bob', 'Carol', 'David', 'Emma', 'Frank', 'Grace', 'Henry',
+  'Iris', 'Jack', 'Karen', 'Leo', 'Mia', 'Nathan', 'Olivia', 'Paul',
+  'Quinn', 'Rachel', 'Sam', 'Tina', 'Uma', 'Victor', 'Wendy', 'Xander',
+  'Yara', 'Zane', 'Amber', 'Blake', 'Chloe', 'Dylan', 'Elena', 'Felix',
+  'Gina', 'Hugo', 'Ivy', 'Jason', 'Kelly', 'Liam', 'Nina', 'Oscar',
+  'Penny', 'Reed', 'Stella', 'Troy', 'Violet', 'Wade', 'Zoe', 'Aria',
+];
+
+function pickRandomNames(count, exclude = '') {
+  const available = AI_NAME_POOL.filter(n => n.toLowerCase() !== exclude.toLowerCase());
+  const shuffled = available.sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
+}
+
 class RoomManager {
   constructor() {
     this.rooms = new Map();    // roomId -> Room
@@ -66,7 +82,7 @@ class RoomManager {
 
   createAIRoom(playerId, playerName, difficulty = 'normal') {
     const room = this.createRoom(playerId, playerName, { mode: 'ai', aiDifficulty: difficulty });
-    const aiNames = ['AI Alice', 'AI Bob', 'AI Carol'];
+    const aiNames = pickRandomNames(3, playerName);
     const aiIds = [];
 
     for (let i = 0; i < 3; i++) {

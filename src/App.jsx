@@ -22,7 +22,7 @@ export default function App() {
 
   const [playerName, setPlayerName] = useState('');
 
-  const isInGame = gameState && (gameState.state === 'playing' || gameState.state === 'exposing');
+  const isInGame = gameState && (gameState.state === 'playing' || gameState.state === 'exposing' || gameState.state === 'roundEnd');
 
   const handleDismissRoundEnd = () => {
     setRoundEndData(null);

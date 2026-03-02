@@ -567,6 +567,43 @@ html, body {
   margin-top: 2px;
 }
 
+.player-captured-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 3px;
+  justify-content: center;
+}
+
+.captured-card {
+  font-size: 11px;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.card-pig {
+  color: #2d2d4e;
+  background: rgba(100, 100, 180, 0.18);
+}
+
+.card-goat {
+  color: #f5c542;
+  background: rgba(245, 197, 66, 0.15);
+}
+
+.card-transformer {
+  color: #5bcefa;
+  background: rgba(91, 206, 250, 0.15);
+}
+
+.card-hearts {
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.15);
+}
+
 .player-turn-indicator {
   position: absolute;
   top: 50%;
