@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Lobby from './components/Lobby';
 import Game from './components/Game';
-import { useGameSocket } from './hooks/useGameSocket';
+import { useLocalGame } from './hooks/useLocalGame';
 import './App.css';
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
     send,
     setRoundEndData,
     setGameOverData,
-  } = useGameSocket();
+  } = useLocalGame();
 
   const [playerName, setPlayerName] = useState('');
 
@@ -35,13 +35,6 @@ export default function App() {
 
   return (
     <div className="app">
-      {/* Connection status */}
-      {!connected && (
-        <div className="connection-banner">
-          Connecting to server...
-        </div>
-      )}
-
       {/* Error toast */}
       {error && (
         <div className="error-toast">
@@ -63,8 +56,6 @@ export default function App() {
       ) : (
         <Lobby
           send={send}
-          roomState={roomState}
-          roomList={roomList}
           playerName={playerName}
           setPlayerName={setPlayerName}
         />
