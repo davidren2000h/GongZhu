@@ -34,10 +34,14 @@
 
 html, body {
   height: 100%;
+  height: 100dvh;
   font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg-dark);
   color: var(--text-primary);
   overflow: hidden;
+  /* Prevent pull-to-refresh and bounce on iOS */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 #root {
@@ -470,6 +474,10 @@ html, body {
   background: radial-gradient(ellipse at center, var(--bg-table-inner) 0%, var(--bg-table) 60%, #145530 100%);
   overflow: hidden;
   min-height: 100vh;
+  min-height: 100dvh; /* iOS Safari fix: use dynamic viewport height */
+  /* Ensure the table doesn't exceed visible area on iOS */
+  max-height: 100vh;
+  max-height: 100dvh;
 }
 
 /* Game Info Bar */
@@ -482,7 +490,9 @@ html, body {
   justify-content: center;
   gap: 24px;
   padding: 10px 20px;
+  padding-top: max(10px, env(safe-area-inset-top));
   background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   z-index: 10;
 }
@@ -502,6 +512,7 @@ html, body {
 .player-info {
   position: absolute;
   background: rgba(0, 0, 0, 0.6);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   border-radius: 12px;
   padding: 10px 16px;
@@ -849,9 +860,11 @@ html, body {
 .hand-container {
   position: absolute;
   bottom: 20px;
+  bottom: max(20px, env(safe-area-inset-bottom));
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
+  max-width: 100vw;
 }
 
 .hand {
@@ -1137,6 +1150,10 @@ html, body {
     font-size: 12px;
   }
 
+  .player-info-bottom {
+    bottom: 140px;
+  }
+
   .scoreboard-container {
     right: 10px;
     top: 45px;
@@ -1147,7 +1164,7 @@ html, body {
   }
 
   .hand {
-    padding: 10px 20px;
+    padding: 8px 10px;
   }
 
   .hand-card-wrapper {
@@ -1163,6 +1180,12 @@ html, body {
   .trick-area {
     width: 240px;
     height: 200px;
+  }
+
+  .game-info-bar {
+    gap: 12px;
+    padding: 6px 10px;
+    font-size: 12px;
   }
 }
 
@@ -1188,11 +1211,35 @@ html, body {
     margin-left: -14px;
   }
 
+  .hand-container {
+    bottom: 10px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+  }
+
+  .player-info-bottom {
+    bottom: 110px;
+  }
+
   .player-info-left {
     left: 5px;
   }
 
   .player-info-right {
     right: 5px;
+  }
+
+  .trick-area {
+    width: 200px;
+    height: 170px;
+  }
+
+  .scoreboard-container {
+    right: 5px;
+    top: 35px;
+  }
+
+  .scoreboard {
+    min-width: 140px;
+    font-size: 11px;
   }
 }
