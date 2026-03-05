@@ -13,8 +13,8 @@ export default function TrickArea({ currentTrick, trickLeadPlayer, myIndex, last
   const trick = currentTrick && currentTrick.length > 0 ? currentTrick : null;
 
   return (
-    <div className="trick-area">
-      <div className="trick-cards">
+    <div className="trick-area" data-testid="trick-area">
+      <div className="trick-cards" data-testid="trick-cards">
         {trick && trick.map((play, i) => {
           const pos = getPlayerPosition(play.playerIndex, myIndex);
           return (

@@ -53,6 +53,7 @@ export default function ExposurePanel({ hand, exposedCards, onExpose, onConfirm,
         className={`btn btn-primary exposure-confirm ${confirmed ? 'btn-disabled' : ''}`}
         onClick={confirmed ? undefined : onConfirm}
         disabled={confirmed}
+        data-testid="exposure-confirm"
       >
         {confirmed ? '✓ Waiting for others...' : 'Confirm'}
       </button>

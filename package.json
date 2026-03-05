@@ -4,11 +4,13 @@
   "description": "GongZhu Online - Chinese Hearts Card Game",
   "main": "server/index.js",
   "scripts": {
-    "dev": "concurrently -k \"node server/index.js\" \"vite\"",
+    "dev": "vite",
     "build": "vite build",
-    "deploy": "vite build && gh-pages -d dist",
     "server": "node server/index.js",
-    "start": "npm run build && node server/index.js"
+    "start": "npm run build && node server/index.js",
+    "test": "vitest run --config vitest.config.js",
+    "test:watch": "vitest --config vitest.config.js",
+    "test:e2e": "npx playwright test --config playwright.config.js"
   },
   "keywords": [
     "gongzhu",
@@ -24,12 +26,14 @@
     "ws": "^8.19.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@vitejs/plugin-react": "^5.1.4",
-    "concurrently": "^9.1.2",
-    "gh-pages": "^6.3.0",
+    "jsdom": "^28.1.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "vite": "^7.3.1",
-    "wait-on": "^8.0.3"
+    "vitest": "^4.0.18"
   }
 }

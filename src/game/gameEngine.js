@@ -17,10 +17,11 @@ export function createDeck() {
   return deck;
 }
 
-export function shuffleDeck(deck) {
+export function shuffleDeck(deck, rng = null) {
   const d = [...deck];
+  const random = rng ? () => rng.next() : Math.random;
   for (let i = d.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(random() * (i + 1));
     [d[i], d[j]] = [d[j], d[i]];
   }
   return d;
@@ -61,7 +62,7 @@ export function getHeartValue(rank) {
   return 0;
 }
 
-function calculateRoundScore(capturedCards, exposedCards, allExposedCards) {
+export function calculateRoundScore(capturedCards, exposedCards, allExposedCards) {
   let heartPoints = 0;
   let hasSpadeQ = false;
   let hasDiamondJ = false;
@@ -130,7 +131,7 @@ function calculateRoundScore(capturedCards, exposedCards, allExposedCards) {
   return score;
 }
 
-function getTrickWinner(trick, leadPlayerIndex) {
+export function getTrickWinner(trick, leadPlayerIndex) {
   const leadSuit = trick[0].suit;
   let winnerIdx = 0;
   let highestRank = trick[0].rank;
@@ -146,8 +147,9 @@ function getTrickWinner(trick, leadPlayerIndex) {
 }
 
 export class GongzhuGame {
-  constructor(gameId) {
+  constructor(gameId, rng = null) {
     this.gameId = gameId;
+    this.rng = rng;
     this.players = [null, null, null, null];
     this.playerNames = ['', '', '', ''];
     this.hands = [[], [], [], []];
@@ -184,7 +186,7 @@ export class GongzhuGame {
   }
 
   startRound() {
-    const deck = shuffleDeck(createDeck());
+    const deck = shuffleDeck(createDeck(), this.rng);
     this.hands = [
       sortHand(deck.slice(0, 13)),
       sortHand(deck.slice(13, 26)),

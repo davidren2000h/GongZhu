@@ -15,15 +15,10 @@ export function useGameSocket() {
   const reconnectTimerRef = useRef(null);
 
   const connect = useCallback(() => {
-    let wsUrl;
-    if (import.meta.env.DEV) {
-      // In dev mode, connect directly to the backend server
-      wsUrl = `ws://${window.location.hostname}:3001/ws`;
-    } else {
-      // In production, connect to the same host
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      wsUrl = `${protocol}//${window.location.host}/ws`;
-    }
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const host = window.location.host;
+    // In dev mode, connect to vite proxy; in production, direct to same host
+    const wsUrl = `${protocol}//${host}/ws`;
 
     const ws = new WebSocket(wsUrl);
     wsRef.current = ws;

@@ -252,8 +252,6 @@ class GongzhuGame {
     this.capturedCards = [[], [], [], []];
     this.exposedCards = { 0: [], 1: [], 2: [], 3: [] };
     this.currentTrick = [];
-    this.completedTrick = null;
-    this.completedTrickWinner = null;
     this.trickNumber = 0;
     this.suitsFirstLed = new Set();
     this.roundNumber++;

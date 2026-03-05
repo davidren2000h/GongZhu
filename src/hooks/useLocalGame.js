@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { GongzhuGame, cardId } from '../game/gameEngine.js';
 import { AIPlayer } from '../game/aiPlayer.js';
+import { isTestMode, getRng, TEST_AI_NAMES } from '../game/rng.js';
 
 const AI_NAME_POOL = [
   'Alice', 'Bob', 'Carol', 'David', 'Emma', 'Frank', 'Grace', 'Henry',
@@ -14,6 +15,9 @@ const AI_NAME_POOL = [
 ];
 
 function pickRandomNames(count, exclude = '') {
+  if (isTestMode()) {
+    return TEST_AI_NAMES.slice(0, count);
+  }
   const available = AI_NAME_POOL.filter(n => n.toLowerCase() !== exclude.toLowerCase());
   const shuffled = [...available].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
@@ -102,7 +106,7 @@ export function useLocalGame() {
             game.startRound();
             processAIExposure();
             updateState();
-          }, 3000);
+          }, isTestMode() ? 10 : 3000);
         }
       } else if (result.trickComplete) {
         // Show the completed trick briefly
@@ -110,11 +114,11 @@ export function useLocalGame() {
           game.advanceToNextTrick();
           updateState();
           processAITurns();
-        }, 1200);
+        }, isTestMode() ? 10 : 1200);
       } else {
         processAITurns();
       }
-    }, 400 + Math.random() * 400);
+    }, isTestMode() ? 10 : (400 + Math.random() * 400));
   }, [updateState]);
 
   const processAIExposure = useCallback(() => {
@@ -143,8 +147,9 @@ export function useLocalGame() {
         const difficulty = msg.difficulty || 'normal';
         const playerName = msg.playerName || 'Player';
         const aiNames = pickRandomNames(3, playerName);
+        const rng = isTestMode() ? getRng() : null;
 
-        const newGame = new GongzhuGame('local');
+        const newGame = new GongzhuGame('local', rng);
         newGame.addPlayer('human', playerName);
         for (let i = 0; i < 3; i++) {
           newGame.addPlayer(`ai-${i}`, aiNames[i]);
@@ -221,14 +226,14 @@ export function useLocalGame() {
               game.startRound();
               processAIExposure();
               updateState();
-            }, 3000);
+            }, isTestMode() ? 10 : 3000);
           }
         } else if (result.trickComplete) {
           addTimer(() => {
             game.advanceToNextTrick();
             updateState();
             processAITurns();
-          }, 1200);
+          }, isTestMode() ? 10 : 1200);
         } else {
           processAITurns();
         }

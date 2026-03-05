@@ -6,8 +6,8 @@ export default function Hand({ cards, legalPlays, onPlayCard, isMyTurn, exposedC
   const exposedSet = new Set(exposedCards || []);
 
   return (
-    <div className="hand-container">
-      <div className="hand">
+    <div className="hand-container" data-testid="hand-container">
+      <div className="hand" data-testid="hand">
         {cards.map((card, index) => {
           const cid = cardId(card);
           const isPlayable = isMyTurn && legalPlays.includes(cid);

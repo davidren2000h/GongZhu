@@ -31,6 +31,7 @@ export default function Card({ card, playable, onClick, small, faceDown, exposed
       onClick={playable ? () => onClick(card) : undefined}
       style={{ '--card-color': color }}
       data-card-id={cid}
+      data-testid={`card-${cid}`}
     >
       <div className="card-corner card-corner-top">
         <span className="card-rank">{RANK_DISPLAY[card.rank]}</span>

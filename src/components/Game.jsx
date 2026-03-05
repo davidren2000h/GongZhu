@@ -57,14 +57,14 @@ export default function Game({ gameState, legalPlays, send, roundEndData, gameOv
   const myExposed = exposedCards[myIndex] || [];
 
   return (
-    <div className="game-table">
+    <div className="game-table" data-testid="game-table">
       {/* Game info bar */}
-      <div className="game-info-bar">
-        <div className="info-round">Round {roundNumber}</div>
-        <div className="info-trick">Trick {trickNumber}/13</div>
-        <div className="info-turn">
+      <div className="game-info-bar" data-testid="game-info-bar">
+        <div className="info-round" data-testid="info-round">Round {roundNumber}</div>
+        <div className="info-trick" data-testid="info-trick">Trick {trickNumber}/13</div>
+        <div className="info-turn" data-testid="info-turn">
           {isMyTurn ? (
-            <span className="your-turn">🎯 Your Turn!</span>
+            <span className="your-turn" data-testid="your-turn">🎯 Your Turn!</span>
           ) : state === 'playing' ? (
             <span>{playerNames[currentPlayerTurn]}'s turn</span>
           ) : state === 'exposing' ? (
