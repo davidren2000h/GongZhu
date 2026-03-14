@@ -34,10 +34,14 @@
 
 html, body {
   height: 100%;
-  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  height: 100dvh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--bg-dark);
   color: var(--text-primary);
   overflow: hidden;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
@@ -60,6 +64,7 @@ html, body {
   color: white;
   text-align: center;
   padding: 8px;
+  padding-top: calc(8px + env(safe-area-inset-top, 0px));
   z-index: 1000;
   font-weight: 600;
   animation: pulse 1.5s ease-in-out infinite;
@@ -97,7 +102,10 @@ html, body {
   flex-direction: column;
   align-items: center;
   padding: 40px 20px;
+  padding-top: calc(40px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   background: linear-gradient(135deg, var(--bg-dark) 0%, #0a1628 100%);
 }
 
@@ -470,6 +478,11 @@ html, body {
   background: radial-gradient(ellipse at center, var(--bg-table-inner) 0%, var(--bg-table) 60%, #145530 100%);
   overflow: hidden;
   min-height: 100vh;
+  min-height: 100dvh;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  touch-action: manipulation;
 }
 
 /* Game Info Bar */
@@ -482,8 +495,10 @@ html, body {
   justify-content: center;
   gap: 24px;
   padding: 10px 20px;
+  padding-top: calc(10px + env(safe-area-inset-top, 0px));
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 10;
 }
 
@@ -513,12 +528,14 @@ html, body {
 
 .player-info-bottom {
   bottom: 170px;
+  bottom: calc(170px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
 }
 
 .player-info-top {
   top: 50px;
+  top: calc(50px + env(safe-area-inset-top, 0px));
   left: 50%;
   transform: translateX(-50%);
 }
@@ -812,9 +829,11 @@ html, body {
 .hand-container {
   position: absolute;
   bottom: 20px;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
+  max-width: 100vw;
 }
 
 .hand {
@@ -1157,5 +1176,295 @@ html, body {
 
   .player-info-right {
     right: 5px;
+  }
+}
+
+/* ============ iPhone Safari Optimizations ============ */
+/* iPhone 16 Pro: 393x852 CSS viewport */
+@media (max-width: 430px) {
+  :root {
+    --card-width: 42px;
+    --card-height: 62px;
+    --card-radius: 6px;
+  }
+
+  .game-info-bar {
+    gap: 12px;
+    padding: 6px 12px;
+    padding-top: calc(6px + env(safe-area-inset-top, 0px));
+  }
+
+  .game-info-bar > div {
+    font-size: 12px;
+  }
+
+  .player-info {
+    padding: 5px 8px;
+    min-width: 80px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+
+  .player-info-bottom {
+    bottom: calc(130px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .player-info-top {
+    top: calc(42px + env(safe-area-inset-top, 0px));
+  }
+
+  .player-info-left {
+    left: 4px;
+    max-width: 85px;
+  }
+
+  .player-info-right {
+    right: 4px;
+    max-width: 85px;
+  }
+
+  .player-name {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .player-score {
+    font-size: 11px;
+  }
+
+  .player-cards-count {
+    font-size: 10px;
+  }
+
+  .player-exposed {
+    font-size: 10px;
+  }
+
+  .player-captured {
+    font-size: 10px;
+  }
+
+  .player-turn-indicator {
+    right: -16px;
+    font-size: 14px;
+  }
+
+  .scoreboard-container {
+    top: calc(38px + env(safe-area-inset-top, 0px));
+    right: 4px;
+  }
+
+  .scoreboard {
+    min-width: 140px;
+    padding: 8px 10px;
+    border-radius: 8px;
+  }
+
+  .scoreboard h3 {
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+
+  .scoreboard th {
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+
+  .scoreboard td {
+    font-size: 11px;
+    padding: 2px 4px;
+  }
+
+  .trick-area {
+    width: 200px;
+    height: 170px;
+    margin-top: -5px;
+  }
+
+  .trick-player-label {
+    font-size: 9px;
+  }
+
+  .card-small {
+    --card-width: 44px;
+    --card-height: 64px;
+    font-size: 0.8em;
+  }
+
+  .hand {
+    padding: 6px 10px;
+    min-height: 80px;
+  }
+
+  .hand-container {
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .hand-card-wrapper {
+    margin-left: -12px;
+  }
+
+  .card-playable {
+    border-width: 2px;
+  }
+
+  .card-special-icon {
+    font-size: 11px;
+  }
+
+  .card-corner-top {
+    top: 2px;
+    left: 3px;
+  }
+
+  .card-corner-bottom {
+    bottom: 2px;
+    right: 3px;
+  }
+
+  .card-rank {
+    font-size: 10px;
+  }
+
+  .card-suit {
+    font-size: 9px;
+  }
+
+  .card-suit-large {
+    font-size: 16px;
+  }
+
+  .exposure-overlay {
+    top: 35%;
+    width: 95vw;
+  }
+
+  .exposure-panel {
+    min-width: unset;
+    max-width: 95vw;
+    padding: 16px 12px;
+    border-radius: 12px;
+  }
+
+  .exposure-panel h2 {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+  }
+
+  .exposure-desc {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  .exposure-cards {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .exposure-card-wrapper {
+    padding: 8px;
+    gap: 4px;
+  }
+
+  .overlay-content {
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .round-result-table th,
+  .round-result-table td {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .ranking-row {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .rank-badge {
+    font-size: 16px;
+    min-width: 24px;
+  }
+
+  .lobby-header h1 {
+    font-size: 1.5em;
+  }
+
+  .lobby-content {
+    padding: 16px;
+  }
+
+  .name-entry {
+    padding: 24px 20px;
+  }
+
+  .lobby-tabs {
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .last-trick-winner {
+    font-size: 14px;
+  }
+
+  .last-trick-label {
+    font-size: 11px;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .card-playable:hover {
+    transform: none;
+    box-shadow: 0 0 10px rgba(212, 160, 23, 0.4);
+  }
+
+  .card-playable:active {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 6px 16px rgba(212, 160, 23, 0.5);
+    z-index: 100;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+    opacity: 0.9;
+  }
+
+  .btn-primary:hover {
+    transform: none;
+  }
+
+  .exposure-card-wrapper:hover {
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .exposure-card-wrapper:active {
+    border-color: var(--accent);
+    background: rgba(88, 166, 255, 0.1);
+  }
+
+  .hand-card-wrapper:hover {
+    z-index: auto;
+  }
+}
+
+/* Prevent overscroll bounce on game table */
+@supports (-webkit-touch-callout: none) {
+  .game-table {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: unset;
+    height: 100%;
   }
 }

@@ -113,6 +113,7 @@ GongZhu Online is a web based implementation of the traditional Chinese card gam
 - Explicit exposure indicators
 - Visible captured scoring cards
 - Illegal moves disabled (rule driven UI)
+- Responsive layout that automatically adapts to different screen sizes and devices (desktop, tablet, iPhone) using CSS media queries, safe area insets, and touch optimizations
 
 ---
 
